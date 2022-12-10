@@ -4,9 +4,10 @@ from tkinter import filedialog
 import cvcaptcha as cp
 from PIL import Image, ImageTk
 from tkinter import messagebox
+from tkinter import font as tkFont
 
 def choosedata():
-    global file_path, havefile
+    global file_path
     file_path = filedialog.askopenfilename()   # 選擇檔案後回傳檔案路徑與名稱
     name_text.set(file_path)
     
@@ -16,12 +17,8 @@ def cvpredict():
     if (name_text.get()!=""):
         Predict_text.set('Prediction:'+cp.predict(file_path))
         img = Image.open(file_path)        # 開啟圖片
+        img = img.resize((600,250))
         tk_img = ImageTk.PhotoImage(img)    # 轉換為 tk 圖片物件
-        '''
-        largeimg = tk_img.tk.zoom(2, 2)  
-        label = tk.Label(root, image=largeimg)  # 在 Lable 中放入圖片
-        label.image = largeimg
-        '''
         photolabel.config(image=tk_img)
         photolabel.pack()
     else:
@@ -54,7 +51,7 @@ root = tk.Tk()
 root.title('109502561')
 root.geometry('800x500')
 root.configure(bg='#97CBFF')
-havefile=0
+
 #-------------------------------
 training_button = tk.Button(root, text='Training~（´◔​∀◔`)', command=buildmodel,fg="#2828FF",bg="#FFFFFB")
 training_button.place(x=300,y=430)
@@ -74,9 +71,11 @@ batch_size_label= tk.Label(root, text= 'batch size: (init=32)', fg="#2828FF",bg=
 
 epoch_label = tk.Label(root, text= "epoch: (init=30)", fg="#2828FF",bg="#97CBFF").place(x=125, y=350)
 
+helv36 = tkFont.Font(family='Helvetica', size=20, weight='bold')
 Predict_text=tk.StringVar()
 Predict_text.set('Prediction:')
-Predict_label = tk.Label(root, textvariable= Predict_text, fg="#2828FF",bg="#97CBFF")
+Predict_label = tk.Label(root, textvariable= Predict_text , fg="#2828FF",bg="#97CBFF")
+Predict_label['font'] = helv36
 Predict_label.place(x=450, y=310)
 
 photolabel = tk.Label(root)  
