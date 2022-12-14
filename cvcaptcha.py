@@ -10,6 +10,7 @@ from keras.models import load_model
 from keras import callbacks
 import cv2
 import string
+import mainui as ui
 
 #Init main values
 symbols = string.ascii_lowercase + "0123456789" # All symbols captcha can contain
@@ -74,16 +75,31 @@ modelfilepath = "./captcha.h5"
 if os.path.isfile(modelfilepath):
     model = load_model('./captcha.h5')
     
+#Create a Drawing Function
+def show_train_history(train_history,train,validation,label):
+    #Write the code
+    plt.plot(train_history.history[train])
+    plt.plot(train_history.history[validation])
+    plt.title("Train History")
+    plt.ylabel(label)
+    plt.xlabel("Epoch")
+    plt.legend(['train','validation'],loc='upper left')
+    plt.show()
+    
 def build_model(bsize,eps):
     X, y = preprocess_data()
     X_train, y_train = X[:970], y[:, :970]
     X_test, y_test = X[970:], y[:, 970:]
     model=create_model();
     #hist = model.fit(X_train, [y_train[0], y_train[1], y_train[2], y_train[3], y_train[4]], batch_size=32, epochs=30,verbose=1, validation_split=0.2)
-    model.fit(X_train, [y_train[0], y_train[1], y_train[2], y_train[3], y_train[4]], batch_size=bsize, epochs=eps,verbose=1, validation_split=0.2)
-    model.save('captcha.h5')
+    hist = model.fit(X_train, [y_train[0], y_train[1], y_train[2], y_train[3], y_train[4]], batch_size=bsize, epochs=eps,verbose=1, validation_split=0.2)
     score= model.evaluate(X_test,[y_test[0], y_test[1], y_test[2], y_test[3], y_test[4]],verbose=1)
     print('Test Loss and accuracy:', score)
+    show_train_history(hist,'dense_9_accuracy','val_dense_9_accuracy','accuracy')
+    show_train_history(hist,'dense_9_loss','val_dense_9_loss','loss')
+    if(ui.overwritemodel()):
+        model.save('captcha.h5')
+
 
 
 def predict(filepath):

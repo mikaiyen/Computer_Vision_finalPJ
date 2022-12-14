@@ -43,6 +43,10 @@ def buildmodel():
     else:
         cp.build_model(bsize, eps)
     
+    
+def overwritemodel():
+    overwrite = messagebox.askyesno("Save model?", "Do you want to save the new model?")
+    return overwrite
 
 
 
