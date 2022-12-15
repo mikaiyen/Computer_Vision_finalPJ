@@ -15,7 +15,12 @@ def choosedata():
 def cvpredict():
     global img, tk_img
     if (name_text.get()!=""):
-        Predict_text.set('Prediction:'+cp.predict(file_path))
+        usenewmodel=0
+        if(cp.modelexist()):
+            usetrainedmodel = messagebox.askyesno("trained model detected", "Detected trained model, do you want to use new model?")
+            if(usetrainedmodel==True):
+                usenewmodel=1
+        Predict_text.set('Prediction:'+cp.predict(file_path,usenewmodel))
         img = Image.open(file_path)        # 開啟圖片
         img = img.resize((600,250))
         tk_img = ImageTk.PhotoImage(img)    # 轉換為 tk 圖片物件
@@ -36,12 +41,15 @@ def buildmodel():
     else:
         eps=30
         
-    if (cp.modelexist):
+    if (cp.modelexist()):
         result = messagebox.askyesno("model detected", "Detected exist model, do you want to rebuild new model?")
         if(result==True):
-            cp.build_model(bsize, eps)
+            newmodel=cp.build_model(bsize, eps)
     else:
-        cp.build_model(bsize, eps)
+        newmodel=cp.build_model(bsize, eps)
+    ifmodelsave = messagebox.askyesno("model built", "Do you want to save new model?")
+    if(ifmodelsave==True):
+        cp.savemodel(newmodel)
     
     
 def overwritemodel():

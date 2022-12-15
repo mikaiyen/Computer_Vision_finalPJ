@@ -10,7 +10,6 @@ from keras.models import load_model
 from keras import callbacks
 import cv2
 import string
-import mainui as ui
 
 #Init main values
 symbols = string.ascii_lowercase + "0123456789" # All symbols captcha can contain
@@ -42,6 +41,8 @@ def create_model():
     model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=["accuracy"])
     return model
 
+modelfilepath = "./captcha.h5"
+
 def modelexist():
     if os.path.isfile(modelfilepath):
         return True
@@ -71,9 +72,7 @@ def preprocess_data():
     # Return final data
     return X, y
 
-modelfilepath = "./captcha.h5"
-if os.path.isfile(modelfilepath):
-    model = load_model('./captcha.h5')
+
     
 #Create a Drawing Function
 def show_train_history(train_history,train,validation,label):
@@ -97,18 +96,22 @@ def build_model(bsize,eps):
     print('Test Loss and accuracy:', score)
     show_train_history(hist,'dense_9_accuracy','val_dense_9_accuracy','accuracy')
     show_train_history(hist,'dense_9_loss','val_dense_9_loss','loss')
-    if(ui.overwritemodel()):
-        model.save('captcha.h5')
+    return model
+    
+def savemodel(newmodel):
+    newmodel.save('captcha.h5')
 
-
-
-def predict(filepath):
+def predict(filepath,usenewmodel):
     img = cv2.imread(filepath, cv2.IMREAD_GRAYSCALE)
     if img is not None:
         img = img / 255.0
     else:
         print("Not detected");
-    res = np.array(model.predict(img[np.newaxis, :, :, np.newaxis]))
+    if(usenewmodel==0):
+        mymodel= load_model('./defaultcaptcha.h5')
+    else:
+        mymodel= load_model('./captcha.h5')
+    res = np.array(mymodel.predict(img[np.newaxis, :, :, np.newaxis]))
     ans = np.reshape(res, (5, 36))
     l_ind = []
     probs = []
