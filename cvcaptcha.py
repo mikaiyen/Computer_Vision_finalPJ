@@ -41,10 +41,9 @@ def create_model():
     model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=["accuracy"])
     return model
 
-modelfilepath = "./captcha.h5"
 
 def modelexist():
-    if os.path.isfile(modelfilepath):
+    if os.path.isfile("./captcha.h5"):
         return True
 
 
