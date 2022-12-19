@@ -102,7 +102,7 @@ choose_data = tk.Button(root,text='choose data',command=choosedata, fg="#2828FF"
 choose_data.place(x=10,y=310)
 name_text = tk.StringVar()
 name_label = tk.Label(root, textvariable=name_text, fg="#2828FF", bg="#97CBFF")
-name_label.place(x=10, y=370)
+name_label.place(x=10, y=390)
 #ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 root.mainloop()
