@@ -32,7 +32,7 @@ def create_model():
     for _ in range(5):
         dens1 = layers.Dense(64, activation='relu')(flat)
         drop = layers.Dropout(0.5)(dens1)
-        res = layers.Dense(num_symbols, activation='sigmoid')(drop)
+        res = layers.Dense(num_symbols, activation='softmax')(drop)
 
         outs.append(res)
     

@@ -64,6 +64,8 @@ root.title('109502561')
 root.geometry('800x500')
 root.configure(bg='#97CBFF')
 
+icon = tk.PhotoImage(file = './input/icon.png')
+root.iconphoto(False,icon)
 #-------------------------------
 training_button = tk.Button(root, text='Training~（´◔​∀◔`)', command=buildmodel,fg="#2828FF",bg="#FFFFFB")
 training_button.place(x=300,y=430)
