@@ -81,9 +81,9 @@ batch_size_button.place(x=250, y=310)
 epoch_button= tk.Entry(root)
 epoch_button.place(x=250,y=350)
 
-batch_size_label= tk.Label(root, text= 'batch size: (init=32)', fg="#2828FF",bg="#97CBFF").place(x=125, y=310)
+batch_size_label= tk.Label(root, text= 'batch size: (init=32)', fg="#2828FF",bg="#97CBFF").place(x=100, y=310)
 
-epoch_label = tk.Label(root, text= "epoch: (init=30)", fg="#2828FF",bg="#97CBFF").place(x=125, y=350)
+epoch_label = tk.Label(root, text= "epoch: (init=30)", fg="#2828FF",bg="#97CBFF").place(x=100, y=350)
 
 helv36 = tkFont.Font(family='Helvetica', size=20, weight='bold')
 Predict_text=tk.StringVar()
